@@ -33,7 +33,14 @@ Clone the project repository to your local machine:
 git clone https://github.com/Haikalin/Streamlit_Data.git
 ```
 
-### 2. Install Dependencies
+### 2. Navigate to the Project Directory
+Change the current directory to the project folder:
+
+```bash
+cd Streamlit_Data
+```
+
+### 3. Install Dependencies
 Install all required Python packages:
 
 ```bash
@@ -68,11 +75,21 @@ The repository is structured as follows:
 
 ```
 .
-├── dashboard/
-│   └── dashboard.py  # Streamlit dashboard script
-├── notebook.ipynb     # Jupyter Notebook with analysis
-├── requirements.txt   # Project dependencies
-└── README.md          # Project documentation
+Streamlit_Data
+    │   notebook.ipynb
+    │   README.md
+    │   requirements.txt
+    │   url.txt
+    │   
+    ├───dashboard
+    │       dashboard.py
+    │       main_data.csv
+    │       
+    └───dataset
+            customers_dataset.csv
+            orders_dataset.csv
+            order_items_dataset.csv
+            sellers_dataset.csv
 ```
 
 ---
