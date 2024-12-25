@@ -10,7 +10,7 @@ pd.options.display.float_format = '{:,.2f}'.format
 st.set_page_config(page_title="Brazilian E-commerce Analysis", layout="wide")
 
 # Load data with specific columns
-df = pd.read_csv("main_data.csv", 
+df = pd.read_csv("dashboard/main_data.csv", 
                 usecols=['seller_state', 'customer_state', 'price', 
                         'order_id', 'order_purchase_timestamp',
                         'customer_id', 'seller_id'])
