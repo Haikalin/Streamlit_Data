@@ -33,14 +33,7 @@ Clone the project repository to your local machine:
 git clone https://github.com/Haikalin/Streamlit_Data.git
 ```
 
-### 2. Navigate to the Project Directory
-Move into the project directory:
-
-```bash
-cd Streamlit_Data
-```
-
-### 3. Install Dependencies
+### 2. Install Dependencies
 Install all required Python packages:
 
 ```bash
@@ -54,9 +47,7 @@ pip install -r requirements.txt
 ### Run Jupyter Notebook
 To explore the analysis and run individual cells:
 
-```bash
-jupyter notebook
-```
+Click on the `notebook.ipynb` file and click "Run" on each cell or "Run All" to execute the entire notebook.
 
 ### Run Streamlit Dashboard Locally
 For an interactive dashboard:
