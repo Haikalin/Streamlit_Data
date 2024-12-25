@@ -1,25 +1,59 @@
-Brazilian E-Commerce Analysis By Haikal Assyauqi
+# Brazilian E-Commerce Analysis By Haikal Assyauqi
 
-This is a project that I did for IDCamp Data Analysis, this project is about analyzing Brazilian E-Commerce data. The data that I used in this project is from Olist, a Brazilian e-commerce platform. The data contains information about orders, customers, products, and sellers. The data is from 2016 to 2018. Even though there is 8 table in this dataset, I only use 4 tables which are orders, customers, order_items, and products. The goal of this project is to analyze the data and find insights.
+# -------------------------------------
+# Project Description
+# -------------------------------------
+This is a project that I did for IDCamp Data Analysis, this project is about analyzing Brazilian E-Commerce data from Olist platform. The data contains transactions from 2016-2018, covering orders, customers, products and sellers. While there are 8 tables in the dataset, this analysis uses 4 key tables: orders, customers, order_items, and products.
 
-How to run this project (Jupyter Notebook):
-1. Make sure you have Jupyter Notebook installed in your computer
-2. Clone this repository
-3. Open the notebook.ipynb file using Jupyter Notebook
-4. Run the notebook
+# -------------------------------------
+# Prerequisites
+# -------------------------------------
+pip install jupyter notebook pandas matplotlib seaborn streamlit
 
-How to run this project (Streamlit):
-1. Make sure you have Streamlit installed in your computer
-2. Clone this repository
-3. Open your terminal and type `streamlit run dashboard/dashboard.py`
-4. Wait until the dashboard is opened in your browser
+# -------------------------------------
+# Installation & Setup
+# -------------------------------------
+# Clone repository
+git clone https://github.com/Haikalin/Streamlit_Data.git
 
-How to open streamlit dashboard online:
-1. Open this link: https://haikal-brazilmarket.streamlit.app/
+# Navigate to project directory  
+cd Streamlit_Data
 
-Tools that I used in this project:
-1. Python
-2. Pandas
-3. Matplotlib
-4. Seaborn
-5. Streamlit
+# Install dependencies
+pip install -r requirements.txt
+
+# -------------------------------------
+# Running the Project
+# -------------------------------------
+# Run Jupyter Notebook
+jupyter notebook
+
+# Run Streamlit Dashboard Locally
+streamlit run dashboard/dashboard.py
+
+# Online Dashboard
+# Visit: https://haikal-brazilmarket.streamlit.app/
+
+# -------------------------------------
+# Project Structure
+# -------------------------------------
+.
+├── dashboard/
+│   └── dashboard.py
+├── notebook.ipynb 
+├── requirements.txt
+└── README.md
+
+# -------------------------------------
+# Tech Stack
+# -------------------------------------
+Python 3.x
+Pandas - Data analysis
+Matplotlib - Visualization
+Seaborn - Statistical visualization
+Streamlit - Dashboard
+
+# -------------------------------------
+# Author
+# -------------------------------------
+Haikal Assyauqi
