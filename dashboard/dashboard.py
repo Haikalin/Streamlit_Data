@@ -13,7 +13,7 @@ st.set_page_config(page_title="Brazilian E-commerce Analysis", layout="wide")
 df = pd.read_csv("dashboard/main_data.csv", 
                 usecols=['seller_state', 'customer_state', 'price', 
                         'order_id', 'order_purchase_timestamp',
-                        'customer_id', 'seller_id'])
+                        'customer_id', 'seller_id', 'freight_value'])
 
 # Convert date column
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
@@ -37,6 +37,7 @@ if start_date and end_date:
    filtered_df = df.loc[mask]
 else:
    filtered_df = df
+
 
 # Analysis by State
 st.header("State Analysis")
@@ -90,7 +91,7 @@ with col1:
    st.subheader("Seller States Distribution")
    
    # Calculate seller state distribution
-   seller_dist = filtered_df.groupby('seller_state')['seller_id'].nunique()
+   seller_dist = df.groupby('seller_state')['seller_id'].nunique()
    seller_dist = seller_dist.sort_values(ascending=False)
    
    # Separate top 8 and others
@@ -110,7 +111,7 @@ with col2:
    st.subheader("Customer States Distribution")
    
    # Calculate customer state distribution
-   customer_dist = filtered_df.groupby('customer_state')['customer_id'].nunique()
+   customer_dist = df.groupby('customer_state')['customer_id'].nunique()
    customer_dist = customer_dist.sort_values(ascending=False)
    
    # Separate top 8 and others
@@ -126,6 +127,100 @@ with col2:
    plt.title("Distribution of Customers by State (Top 8)")
    st.pyplot(fig6)
 
+st.header("Freight Value Analysis")
+col1, col2 = st.columns(2)
+freight_df = filtered_df.groupby(['customer_state', 'seller_state'])['freight_value'].mean().reset_index()
+freight_df['state_to_state'] = freight_df['customer_state'] + ' to ' + freight_df['seller_state']
+freight_df = freight_df.drop(['customer_state', 'seller_state'], axis=1)
+
+with col1:
+   top_25_freight = freight_df.nlargest(25, 'freight_value')
+   st.subheader("Top 25 State-to-State Freight Values")
+   fig7, ax = plt.subplots(figsize=(10, 15))
+   sns.barplot(data=top_25_freight, x='freight_value', y='state_to_state', ax=ax)
+   plt.title("Top 25 State-to-State Freight Values")
+   st.pyplot(fig7)
+
+with col2:
+   bottom_25_freight = freight_df.nsmallest(25, 'freight_value')
+   st.subheader("Bottom 25 State-to-State Freight Values")
+   fig8, ax = plt.subplots(figsize=(10, 15))
+   sns.barplot(data=bottom_25_freight, x='freight_value', y='state_to_state', ax=ax)
+   plt.title("Bottom 25 State-to-State Freight Values")
+   st.pyplot(fig8)
+
+#RFM Analysis
+#Recency
+#Recency
+rfm_df = filtered_df.groupby('customer_id').agg(
+   last_purchase=('order_purchase_timestamp', 'max')
+).reset_index()
+
+max_date = pd.to_datetime(rfm_df['last_purchase']).max()
+rfm_df['recency'] = (max_date - pd.to_datetime(rfm_df['last_purchase'])).dt.days
+
+#Frequency
+frequency = filtered_df.groupby('customer_id').agg(
+   frequency=('order_id', 'count')
+).reset_index()
+
+#Monetary 
+monetary = filtered_df.groupby('customer_id').agg(
+   monetary=('price', 'sum')
+).reset_index()
+
+# Merge metrics
+rfm_df = rfm_df.merge(frequency, on='customer_id').merge(monetary, on='customer_id')
+
+def r_score(x):
+   if x <= 100:
+       return 4
+   elif x <= 200:
+       return 3
+   elif x <= 300:
+       return 2
+   elif x <= 400:
+       return 1
+   else:
+       return 0
+
+def f_score(x):
+   if x > 5:
+       return 4
+   elif x > 4:
+       return 3
+   elif x > 3:
+       return 2
+   elif x > 2:
+       return 1
+   else:
+       return 0
+
+def m_score(x):
+   if x > 2000:
+       return 4
+   elif x > 1500:
+       return 3
+   elif x > 1000:
+       return 2
+   elif x > 500:
+       return 1
+   else:
+       return 0
+
+# Apply scoring to create new columns
+rfm_df['R'] = rfm_df['recency'].apply(r_score)
+rfm_df['F'] = rfm_df['frequency'].apply(f_score)
+rfm_df['M'] = rfm_df['monetary'].apply(m_score)
+rfm_df['Total_RFM'] = rfm_df['R'] + rfm_df['F'] + rfm_df['M']
+
+st.header("RFM Analysis")
+
+fig9, ax = plt.subplots(figsize=(10, 6))
+sns.histplot(data=rfm_df['Total_RFM'], bins=12)
+plt.title("RFM Score Distribution")
+st.pyplot(fig9)
+   
 # Key Metrics
 st.header("Key Metrics")
 col1, col2, col3 = st.columns(3)
